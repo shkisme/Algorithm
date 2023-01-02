@@ -1,4 +1,4 @@
-package BOJ;
+package 분해합2232;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class 분해합2232 {
+public class Main {
 
   public static void main(String[] args) throws IOException {
-    new 분해합2232().solution();
+    new Main().solution();
   }
 
   public void solution() throws IOException {
