@@ -1,4 +1,4 @@
-package DFS와BFS_X;
+package DFS와BFS;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
