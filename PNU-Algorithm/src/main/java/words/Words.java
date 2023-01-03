@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,21 +37,12 @@ public class Words {
 
   private static void input(BufferedReader br) throws IOException {
     // 테스트용 INPUT - 시간, 성능 측정용
-    String test1 = "Test1";
-    String test2 = "Test2";
+    String test = "Test,0";
     for (int i = 0; i < size; i++) {
-      if (i % 2 == 0) {
-        map.put(test1, i);
-      } else {
-        map.put(test2, i);
-      }
-
-      if (i <= 50) {
-        test1 += "*";
-      }
-      if (i <= 25) {
-        test2 += "#";
-      }
+      map.put(test, i);
+      String[] split = test.split(",");
+      test = split[0];
+      test += "," + (Integer.parseInt(split[1]) + 1);
     }
 
     // 문제 풀이용 INPUT - 테스트 케이스 통과 O
