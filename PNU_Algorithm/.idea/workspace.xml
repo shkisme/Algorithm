@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="40867a93-5a32-46aa-a231-a934ff9b2fdb" name="Changes" comment="" />
+    <list default="true" id="44e310f6-1612-4268-9a5a-2e78e6170188" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Data-Structure/.idea/Data-Structure.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Data-Structure/.idea/Data-Structure.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Data-Structure/.idea/modules/Data-Structure.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Data-Structure/.idea/modules/Data-Structure.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Data-Structure/.idea/modules/Data-Structure.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Data-Structure/.idea/modules/Data-Structure.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Data-Structure/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Data-Structure/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +28,7 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Data-Structure" type="f1a62948:ProjectNode" />
+                <item name="PNU_Algorithm" type="f1a62948:ProjectNode" />
               </path>
             </expand>
             <select />
@@ -35,52 +40,38 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="2JnggzFMxwiiWgPmadWjCmJW7AW" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2JmW18PcSRocZuDD8SwdgR5YLVN" />
   <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/GitHub_Repository/Algorithm/Algorithm/Data-Structure",
+    "last_opened_file_path": "/Users/sonhyeongyeong/Github-Repository/Algorithm/PNU_Algorithm",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6237ee2d-8541-4739-8bd7-d8a6aaa58ddd" name="Changes" comment="" />
-      <created>1672719375284</created>
+      <changelist id="44e310f6-1612-4268-9a5a-2e78e6170188" name="Changes" comment="" />
+      <created>1672683520476</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1672719375284</updated>
-      <workItem from="1672719376679" duration="639000" />
+      <updated>1672683520476</updated>
+      <workItem from="1672683521636" duration="608000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>
