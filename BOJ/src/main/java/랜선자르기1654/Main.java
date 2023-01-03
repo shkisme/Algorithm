@@ -1,3 +1,5 @@
+package 랜선자르기1654;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,7 +23,7 @@ public class Main {
     bw.close();
   }
 
-  private static void input(BufferedReader br) throws IOException {
+  private static void input(BufferedReader br) {
   }
 
   private static void solve() {
