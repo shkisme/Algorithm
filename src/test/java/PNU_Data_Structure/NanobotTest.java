@@ -89,7 +89,7 @@ public class NanobotTest {
         while ((line = answer.readLine()) != null) {
           if (!line.equals(write.readLine())) {
             score--;
-            throw new Exception("[WRONG] 틀렸습니다.");
+            throw new Exception("[WRONG Answer] 틀렸습니다.");
           }
         }
       } catch (Exception e) {
