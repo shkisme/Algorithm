@@ -1,4 +1,4 @@
-package bronze.분해합2232;
+package BOJ.bronze.분해합2232;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,4 +1,4 @@
-package palindrome;
+package PNU_Algorithm.palindrome;
 
 public enum Type {
   Palindrome(1), PseudoPalindrome(2), Normal(3);

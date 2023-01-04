@@ -1,4 +1,4 @@
-package silver.덩치7568;
+package BOJ.silver.덩치7568;
 
 import java.io.BufferedReader;
 import java.io.IOException;

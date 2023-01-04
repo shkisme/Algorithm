@@ -1,4 +1,4 @@
-package 가장긴증가하는부분수열14002;
+package BOJ.가장긴증가하는부분수열14002;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

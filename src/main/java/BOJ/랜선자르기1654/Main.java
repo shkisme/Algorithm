@@ -1,4 +1,4 @@
-package 랜선자르기1654;
+package BOJ.랜선자르기1654;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

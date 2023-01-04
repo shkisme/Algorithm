@@ -1,4 +1,4 @@
-package Level1.크기가작은부분문자열;
+package PGS.Level1.크기가작은부분문자열;
 
 class Solution {
 

@@ -1,4 +1,4 @@
-package BaseConversion11576;
+package BOJ.BaseConversion11576;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

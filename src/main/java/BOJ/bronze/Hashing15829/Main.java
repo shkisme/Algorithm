@@ -1,4 +1,4 @@
-package bronze.Hashing15829;
+package BOJ.bronze.Hashing15829;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,4 +1,4 @@
-package bronze.수정렬하기3_10989;
+package BOJ.bronze.수정렬하기3_10989;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
