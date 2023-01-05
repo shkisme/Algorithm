@@ -1,0 +1,94 @@
+package BOJ.통계학2108;
+
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Integer.MIN_VALUE;
+import static java.util.stream.Collectors.toList;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Main {
+
+  static int N, max, min, median;
+
+  static double sum; // 반올림을 위해 double 로 선언
+
+  static List<Integer> modeList = new ArrayList<>();
+
+  static int[] numbers;
+
+  static Map<Integer, Integer> map = new HashMap<>();
+
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+    input(br);
+    solve();
+    print(bw);
+
+    br.close();
+    bw.close();
+  }
+
+  private static void input(BufferedReader br) throws IOException {
+    N = Integer.parseInt(br.readLine());
+    numbers = new int[N];
+    for (int i = 0; i < N; i++) {
+      int input = Integer.parseInt(br.readLine());
+      numbers[i] = input;
+      map.compute(input, (key, value) -> (value == null) ? 1 : ++value);
+    }
+  }
+
+  private static void solve() {
+    sum = Arrays.stream(numbers).sum();
+    max = Arrays.stream(numbers).max().orElse(MAX_VALUE);
+    min = Arrays.stream(numbers).min().orElse(MIN_VALUE);
+    median = Arrays.stream(numbers)
+        .sorted()
+        .boxed()
+        .collect(toList())
+        .get(N / 2);
+
+    int maxValues = map.values().stream().max(new Comparator<Integer>() {
+      @Override
+      public int compare(Integer o1, Integer o2) {
+        return o1 - o2;
+      }
+    }).orElse(MAX_VALUE);
+    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+      if (entry.getValue() == maxValues) {
+        modeList.add(entry.getKey());
+      }
+    }
+  }
+
+  private static void print(BufferedWriter bw) throws IOException {
+    bw.write(Math.round(sum / (N)) + "\n");
+    bw.write((median) + "\n");
+    if (modeList.size() != 1) {
+      bw.write(modeList.stream() // Tree Map 을 사용하면, 자동으로 정렬해준다고 한다. 바꿔보기.
+          .sorted()
+          .collect(toList())
+          .get(1) + "\n");
+    } else {
+      bw.write(modeList
+          .get(0) + "\n");
+    }
+    bw.write((max - min) + "\n");
+    bw.flush();
+  }
+}
