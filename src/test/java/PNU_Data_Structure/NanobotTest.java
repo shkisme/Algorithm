@@ -2,8 +2,8 @@ package PNU_Data_Structure;
 
 import static java.nio.file.Files.newBufferedReader;
 
+import PNU_Data_Structure.nanobot.Coordinate;
 import PNU_Data_Structure.nanobot.Nanobot;
-import PNU_Data_Structure.nanobot.Nanobot.Coordinate;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,15 +22,11 @@ public class NanobotTest {
   static int start = 1;
   /**
    * @end : 평가 데이터의 총 개수
-   */
-  static int end = 10, score = 10;
-  /**
    * @time : 제한시간(초)
-   */
-  static int time = 1;
-  /**
    * @problemName : 문제 이름
    */
+  static int end = 10, score = 10;
+  static int time = 1;
   static String problemName = "nanobot";
 
   @Test
@@ -63,7 +59,6 @@ public class NanobotTest {
          * run 메서드 실행
          */
         nanobot.run(scanner);
-        start = 0;
         long end = System.currentTimeMillis();
         if ((end - start) > time * 1000L) {
           score--;
@@ -99,9 +94,6 @@ public class NanobotTest {
     System.out.println("총점 : " + score + " 점 (만점 : " + end + "점)");
   }
 
-  /**
-   * 정답 값을 찾아 파일에 입력
-   */
   private void write(BufferedWriter writer, Map<Integer, Coordinate> map, Integer[] coordinate,
       int number) throws IOException {
     Optional<Entry<Integer, Coordinate>> first = map.entrySet()

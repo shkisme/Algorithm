@@ -5,9 +5,6 @@ import static PNU_Data_Structure.nanobot.Direction.Left;
 import static PNU_Data_Structure.nanobot.Direction.Right;
 import static PNU_Data_Structure.nanobot.Direction.Up;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,33 +29,6 @@ public class Nanobot {
 
   public Integer[] getCoordinate() {
     return coordinate;
-  }
-
-  public static class Coordinate {
-
-    private final int x;
-    private final int y;
-
-    public Coordinate(int x, int y) {
-      this.x = x;
-      this.y = y;
-    }
-
-    public int getX() {
-      return x;
-    }
-
-    public int getY() {
-      return y;
-    }
-
-    @Override
-    public String toString() {
-      return "Coordinate{" +
-          "x=" + x +
-          ", y=" + y +
-          '}';
-    }
   }
 
   public void run(Scanner scanner) {

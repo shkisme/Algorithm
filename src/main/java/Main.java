@@ -32,7 +32,7 @@ public class Main {
 
   }
 
-  private static void print(BufferedWriter bw) {
+  private static void print(BufferedWriter bw) throws IOException {
 
   }
 
