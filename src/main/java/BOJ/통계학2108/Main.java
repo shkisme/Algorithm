@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,8 +29,11 @@ public class Main {
   static List<Integer> modeList = new ArrayList<>();
 
   static int[] numbers;
-
-  static Map<Integer, Integer> map = new HashMap<>();
+  /**
+   * @key = 숫자
+   * @value = 숫자가 나온 빈도수
+   */
+  static Map<Integer, Integer> map = new TreeMap<>();
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -57,7 +61,7 @@ public class Main {
     sum = Arrays.stream(numbers).sum();
     max = Arrays.stream(numbers).max().orElse(MAX_VALUE);
     min = Arrays.stream(numbers).min().orElse(MIN_VALUE);
-    median = Arrays.stream(numbers)
+    median = Arrays.stream(numbers) // 생각보다 단순한, 중앙값 구하기 로직
         .sorted()
         .boxed()
         .collect(toList())
@@ -69,6 +73,7 @@ public class Main {
         return o1 - o2;
       }
     }).orElse(MAX_VALUE);
+
     for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
       if (entry.getValue() == maxValues) {
         modeList.add(entry.getKey());
@@ -80,13 +85,9 @@ public class Main {
     bw.write(Math.round(sum / (N)) + "\n");
     bw.write((median) + "\n");
     if (modeList.size() != 1) {
-      bw.write(modeList.stream() // Tree Map 을 사용하면, 자동으로 정렬해준다고 한다. 바꿔보기.
-          .sorted()
-          .collect(toList())
-          .get(1) + "\n");
+      bw.write(modeList.get(1) + "\n");
     } else {
-      bw.write(modeList
-          .get(0) + "\n");
+      bw.write(modeList.get(0) + "\n");
     }
     bw.write((max - min) + "\n");
     bw.flush();
