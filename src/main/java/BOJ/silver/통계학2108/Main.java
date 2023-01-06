@@ -1,4 +1,4 @@
-package BOJ.통계학2108;
+package BOJ.silver.통계학2108;
 
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;

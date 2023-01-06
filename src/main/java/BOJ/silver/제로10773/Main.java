@@ -1,4 +1,4 @@
-package BOJ.제로10773;
+package BOJ.silver.제로10773;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
