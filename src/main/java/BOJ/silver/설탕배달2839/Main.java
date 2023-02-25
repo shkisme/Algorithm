@@ -1,4 +1,4 @@
-package BOJ.silver.거스름돈;
+package BOJ.silver.설탕배달2839;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,11 +36,11 @@ public class Main {
     }
 
     while (true) {
-      if ((N - q_divideByFive * 5) % 2 == 0) { // 나머지 금액이 2로 나누어 떨어진다면,
-        answer = q_divideByFive + ((N - q_divideByFive * 5) / 2);
+      if ((N - q_divideByFive * 5) % 3 == 0) { // 나머지 금액이 3로 나누어 떨어진다면,
+        answer = q_divideByFive + ((N - q_divideByFive * 5) / 3);
         break;
       }
-      if (q_divideByFive == 0) { // 나머지 금액이 2로 나누어 떨어지지 않으면서, 더 감소시킬 5원이 없다면, 거슬러줄 수 없다.
+      if (q_divideByFive == 0) { // 나머지 금액이 3로 나누어 떨어지지 않으면서, 더 감소시킬 5원이 없다면, 거슬러줄 수 없다.
         answer = -1;
         break;
       }
@@ -51,4 +51,6 @@ public class Main {
   private static void print(BufferedWriter bw) throws IOException {
     bw.write(String.valueOf(answer));
   }
+
+
 }
