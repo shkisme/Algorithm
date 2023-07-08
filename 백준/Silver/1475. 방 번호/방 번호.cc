@@ -34,13 +34,5 @@ int main() {
         a[6] /= 2;
     }
 
-    int m = INT_MIN;
-
-    for (int i = 0; i < 10; i++){
-        if (a[i] > m){
-            m = a[i];
-        }
-    }
-
-    cout << m;
+    cout << *max_element(a, a + 10);
 }
