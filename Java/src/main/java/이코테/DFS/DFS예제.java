@@ -1,4 +1,4 @@
-package 이코테;
+package 이코테.DFS;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package 이코테;
+package 이코테.BFS;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
