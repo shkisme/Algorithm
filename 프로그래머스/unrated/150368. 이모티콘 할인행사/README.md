@@ -226,3 +226,123 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+---
+
+# 문제 풀이
+
+## 문제 이해
+
+n명의 카카오톡 사용자들이 있다.
+
+- **일정 비율** 이상 할인하는 이모티콘은 구입합니다.
+- **일정 가격** 이상 구매하면, 구매를 취소하고 구독합니다.
+- users의 원소로 **(비율, 가격)**이 주어집니다.
+
+m개의 이모티콘을 판매한다.
+
+- emoticons의 원소로 이모티콘의 **정가**가 주어집니다.
+
+목표
+
+1. 구독서비스 가입자를 최대한 늘려야 함.
+2. 판매액을 최대한 늘려야 함.
+
+할인율
+
+- 이모티콘마다 할인율은 **다를 수 있습니다.**
+- **10%, 20%, 30%, 40%** 중 하나로 설정됩니다.
+
+### 예제
+
+users : [[40, 10000], [25, 10000]]
+
+emoticons : [7000, 9000]
+
+result : [1, 5400]
+
+---
+
+## 문제 해결
+
+### 1. 🤔 구상 & 풀이
+
+- 4의 n(이모티콘 수)승만큼 경우의 수를 따져서 풀어야 할 것 같았다. (중복 순열을 계산해주는 재귀함수를 만들어야 한다.)
+- 우선순위 큐를 사용하면 마지막에 결과값을 구할 때 쉬울 것 같았다.
+- 단순 구현 문제 같았다.
+
+### 2. 😵‍💫 시행착오
+
+- 우선순의 큐의 우선순위를 자바에서 설정하는 방법이… 좀 복잡하다고 느껴졌다. 익혀야 할 것 같다.
+- 재귀함수 짜는게 좀 쉽지 않았다… 구글링 했음. (사실 이게 문제의 전부였는데 ㅎ)
+- 할인된 값 구할 때 `100`으로 나누면 안되고 `100.0`으로 나눠야 했다. 묵시적으로 int로 계산해버려서 그런가…?
+
+## 코드 작성
+
+```java
+import java.util.*;
+import javafx.util.*;
+
+class Solution {
+    public int[] solution(int[][] users, int[] emoticons) {
+        int[] answer = {0, 0};
+        PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<>(new Comparator<Pair<Integer, Integer>>() {
+				    @Override
+				    public int compare(Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) {
+				        if (p1.getKey().equals(p2.getKey())) {
+				            return p2.getValue().compareTo(p1.getValue());
+				        }
+				        return p2.getKey().compareTo(p1.getKey());
+				    }
+				});
+        
+        int userCnt = users.length;
+        int n = emoticons.length;
+        int[] elements = {10, 20, 30, 40};
+        
+        List<List<Integer>> permutations = generatePermutations(elements, n);
+       
+        for (List<Integer> permutation : permutations) { // 퍼센트 순회
+            int cnt = 0;
+            int value =0;
+            for (int i = 0; i < userCnt; i++){ // users 순회
+                int tmpValue = 0;
+                for (int j = 0; j < permutation.size(); j++){
+                    if (users[i][0] <= permutation.get(j)){
+                        tmpValue += (emoticons[j] - (emoticons[j] * (permutation.get(j) / 100.0)));
+                        if (tmpValue >= users[i][1]){
+                            cnt++;
+                            tmpValue = 0;
+                            break;
+                        }
+                    }
+                }
+                value += tmpValue; 
+            }
+            pq.add(new Pair<>(cnt, value));
+        }
+        answer[0] = pq.peek().getKey();
+        answer[1] = pq.peek().getValue();
+        return answer;
+    }
+    
+    public List<List<Integer>> generatePermutations(int[] elements, int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        generatePermutationsHelper(elements, n, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void generatePermutationsHelper(int[] elements, int n, List<Integer> current, List<List<Integer>> result) {
+        if (current.size() == n) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        for (int i = 0; i < elements.length; i++) {
+            current.add(elements[i]);
+            generatePermutationsHelper(elements, n, current, result);
+            current.remove(current.size() - 1);
+        }
+    }
+}
+```
