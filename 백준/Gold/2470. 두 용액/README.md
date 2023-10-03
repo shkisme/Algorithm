@@ -28,3 +28,120 @@
 
  <p>첫째 줄에 특성값이 0에 가장 가까운 용액을 만들어내는 두 용액의 특성값을 출력한다. 출력해야 하는 두 용액은 특성값의 오름차순으로 출력한다. 특성값이 0에 가장 가까운 용액을 만들어내는 경우가 두 개 이상일 경우에는 그 중 아무것이나 하나를 출력한다.</p>
 
+---
+
+# 풀이 작성
+
+## 문제 이해
+
+산성 용액 특성값 : 1 ~ 1,000,000,000
+알칼리성 용액 특성값 : -1,000,000,000 ~ -1
+
+목적 : 같은 양의 두 용액을 혼합하여 **특성값이 0에 가장 가까운 용액**을 만들려고 한다.
+
+### 예제
+
+특성값이 [-2, 4, -99, -1, 98]인 경우
+
+- 특성값이 -99인 용액과 특성값이 98인 용액을 혼합하면 특성값이 -1인 용액을 만들 수 있다.
+
+## 입출력
+
+### 입력
+
+- 첫째 줄에는 전체 용액의 수 N (2 이상 100,000 이하)
+- 둘째 줄에는 용액의 특성값을 나타내는 N개의 정수가 빈칸을 사이에 두고 주어진다.
+    - 각 수들은 -1,000,000,000 이상 1,000,000,000 이하
+    - N개의 용액들의 특성값은 **모두 다르다.**
+    - **산성 용액만으로나 알칼리성 용액만으로 입력이 주어지는 경우도 있을 수 있다.**
+
+### 출력
+
+- 첫째 줄에 특성값이 0에 가장 가까운 용액을 만들어내는 두 용액의 특성값을 출력
+- 특성값의 오름차순으로 출력
+    - ex) -99, 98
+- 특성값이 0에 가장 가까운 용액을 만들어내는 경우가 두 개 이상일 경우에는 그 중 아무것이나 하나를 출력한다.
+
+---
+
+## 문제 풀이
+
+### 1. 🤔 구상
+
+- 값 정렬 후 투포인터 알고리즘을 사용하면 쉽게 해결할 수 있을 것 같다 !
+
+### 2. 🧐 검증 & 풀이
+
+![image](https://github.com/shkisme/Algorithm/assets/92802207/52d503b6-0c95-4c72-9044-4abaa5a44ff5)
+
+
+### 3. ✅ Test Case (찾지 못했던 반례)
+
+```
+5
+-2 4 -99 -1 98
+```
+
+```
+3
+-10 1 2
+```
+
+```
+5
+100 -1 -2 -3 -4
+```
+
+## 코드 작성
+
+```java
+public class Main {
+
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+    int N = parseInt(br.readLine());
+    String[] input = br.readLine().split(" ");
+
+    int[] nums = new int[N];
+    for (int i = 0; i < N; i++) {
+      nums[i] = Integer.parseInt(input[i]);
+    }
+   
+    Arrays.sort(nums); // 정렬
+
+    int s = 0, e = N - 1;
+
+    if (nums[s] >= 0) {
+      System.out.println(nums[0] + " " + nums[1]);
+    } else if (nums[e] <= 0) {
+      System.out.println(nums[N - 2] + " " + nums[N - 1]);
+    } else {
+      int MIN_VALUE = MAX_VALUE;
+      int a1 = nums[s], a2 = nums[e];
+
+      while (s < e) { // 투포인터 알고리즘 적용
+        int tmp = nums[s] + nums[e];
+        if (tmp > 0) {
+          if (Math.abs(tmp) < MIN_VALUE) {
+            MIN_VALUE = Math.abs(tmp);
+            a1 = nums[s];
+            a2 = nums[e];
+          }
+          e--;
+        } else if (tmp <= 0) {
+          if (Math.abs(tmp) < MIN_VALUE) {
+            MIN_VALUE = Math.abs(tmp);
+            a1 = nums[s];
+            a2 = nums[e];
+          }
+          s++;
+        }
+      }
+
+      System.out.println(a1 + " " + a2);
+    }
+  }
+}
+```
+
