@@ -86,6 +86,108 @@ queue2 = [4, 6, 5, 1]
 
 <p><strong>입출력 예 #3</strong></p>
 
+---
+
+# 문제 풀이
+
+## 문제 이해
+
+숫자가 든 두개의 큐가 주어지고, 두 큐에 들어있는 수의 합이 서로 같아질 때 까지 수를 옮깁니다.
+
+목적 : 수를 옮기는 횟수의 **최솟값**을 구합니다.
+
+### 예제
+
+```
+queue1 = [3, 2, 7, 2]
+queue2 = [4, 6, 5, 1]
+```
+
+> queue1에서 3을 추출하여 queue2에 추가합니다. 그리고 queue2에서 4를 추출하여 queue1에 추가합니다. 그 결과 queue1은 [2, 7, 2, 4], queue2는 [6, 5, 1, 3]가 되며, 각 큐의 원소 합은 15로 같습니다. 이 방법은 작업을 **2번**만 수행하며, **이보다 적은 횟수로 목표를 달성할 수 없습니다.**
+> 
+
+---
+
+## 문제 해결
+
+### 1. 🤔 구상
+
+큐를 활용하여 풀까 했는데, 배열에 수를 넣어서 투포인터 알고리즘을 적용하여 풀 수 있을 것 같았다.
+
+> 큐는 값 순회가 되지 않으니, 배열을 택했는데 생각해보니 서로의 합이 같은지를 확인하는 것이기 때문에, 큐를 사용하여 풀면 더 깔끔할 것 같다.
+> 
+
+### 2. 🧐 검증 & 풀이
+
+투포인터 알고리즘을 적용했다.
+
+![image](https://github.com/shkisme/Algorithm/assets/92802207/403c2b7f-d502-4a94-afd1-f523a0de4cb0)
+
+1. 위 처럼 배열 두개에 두 큐의 수들을 나란히 두고, 두개의 포인터를 두었다. (시작값, 끝값)
+2. 어떻게 하면 옮기는 횟수를 최소로 할 수 있을 지에 대한 고민을 했는데, 현재의 sum이 더 큰 배열의 값을 다른 쪽으로 옮기면 될 것이다.
+3. 두 sum이 같아질 때 까지, 혹은 sum이 같아지지 않을 때 까지 2번 과정을 반복한다.
+
+### 3. ✅ Test Case (반례)
+
+- sum의 타입을 long으로 지정했더니 시간초과를 해결했다.
+- while문의 반복 횟수를 더 늘려주니, 테스트 케이스 1번을 해결했다.
+    - 좀 더 엄밀하게 풀어야 할 지도…
+
+## 코드 작성
+
+```java
+import java.util.*;
+
+class Solution {
+    public int solution(int[] queue1, int[] queue2) {
+        int len = queue1.length;
+        int[] arr1 = new int[2 * len + 1];
+        int[] arr2 = new int[2 * len + 1];
+        
+        for (int i= 0; i < len; i++){
+            arr1[i] = queue1[i];
+            arr2[i] = queue2[i];
+        }
+        for (int i= 0; i < len; i++){
+            arr1[i + len] = queue2[i];
+            arr2[i + len] = queue1[i];
+        }
+        
+        int s1 = 0, s2 = 0, e1 = len - 1, e2 = len - 1;
+        
+        long sum1 = Arrays.stream(queue1).sum();
+        long sum2 = Arrays.stream(queue2).sum();
+        
+        int cnt = 0;
+        int last = 2 * len - 1;
+        
+        while(sum1 != sum2){
+            if (cnt > (Math.abs(s1 - e1) + Math.abs(s2 - e2)) * 3) {
+                return -1;
+            }
+            if (sum1 > sum2){
+                sum1 -= arr1[s1];
+                s1 = (s1 == last) ? 0 : s1 + 1;
+                e2 = (e2 == last) ? 0 : e2 + 1;
+                sum2 += arr2[e2];
+                cnt++;
+            }
+            else if (sum1 < sum2){
+                sum2 -= arr2[s2];
+                s2 = (s2 == last) ? 0 : s2 + 1;
+                e1 = (e1 == last) ? 0 : e1 + 1;
+                sum1 += arr1[e1];
+                cnt++;
+            }
+        }
+        if (sum1 == sum2){
+            return cnt;
+        }
+        return -1;
+    }
+}
+```
+
 <p>어떤 방법을 쓰더라도 각 큐의 원소 합을 같게 만들 수 없습니다. 따라서 -1을 return 합니다.</p>
 
 
