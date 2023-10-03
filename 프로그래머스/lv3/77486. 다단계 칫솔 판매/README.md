@@ -157,3 +157,87 @@
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+---
+
+# 문제 풀이
+
+## 문제 이해
+
+![image](https://github.com/shkisme/Algorithm/assets/92802207/9d9a93c6-f2ec-4447-b21c-d1a8aec57384)
+
+목적 : 상위 노드까지 탐색하며 값을 계산.
+
+---
+
+## 문제 해결
+
+### 1. 🤔 구상
+
+배열이 편리하게 주어지므로 Map으로 노드를 만들고 재귀함수로 순회하면 될 것 같다 !
+
+### 2. 🧐 검증 & 풀이
+
+생략.
+
+### 3. 😵‍💫 시행 착오
+
+처음에 11~13번이 시간 초과가 났었는데, 10프로의 값이 0일 경우 재귀를 돌지 않게끔 수정 했더니 성공했다.
+
+```java
+public void search(String str, int a){
+    if (str.equals("-")) {
+        return;
+    }
+    int value = result.get(str);
+    result.put(str, value + a - (a / 10));
+    String r = m.get(str);
+    **if(a / 10 != 0)** search(r, a / 10);
+}
+```
+
+## 코드 작성
+
+### 코드 요약
+
+- 하나에는 추천인을, 하나에는 계산된 결과값을 담을 두개의 Map을 준비.
+- 재귀함수 search에서 노드와 연결된 추천인을 찾아가면서 값을 계산
+
+```java
+import java.util.*;
+
+class Solution {
+    
+    static Map<String,String> m = new HashMap<>();
+    static Map<String,Integer> result = new HashMap<>();
+    
+    public int[] solution(String[] enroll, String[] referral, String[] seller, int[] amount) {
+        int[] answer = new int[enroll.length];
+        
+        for (int i = 0; i < enroll.length; i++){
+            m.put(enroll[i], referral[i]);
+            result.put(enroll[i], 0);
+        }
+        
+        for (int i = 0; i < seller.length; i++){
+            search(seller[i], amount[i] * 100);
+        }
+        
+        for (int i = 0; i < enroll.length; i++){
+            answer[i] = result.get(enroll[i]);
+        }
+        
+        return answer;
+    }
+    
+    public void search(String str, int a){
+        if (str.equals("-")) {
+            return;
+        }
+        int value = result.get(str);
+        result.put(str, value + a - (a / 10));
+        String r = m.get(str);
+        if(a / 10 != 0) search(r, a / 10);
+    }
+}
+```
