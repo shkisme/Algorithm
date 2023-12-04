@@ -1,15 +1,17 @@
 import java.util.*;
 
-class Solution {
-    class Pair{
-        int y;
-        int x;
-        
-        Pair(int y, int x){
-            this.y = y;
-            this.x = x;
-        }
+class Pair{
+    int y;
+    int x;
+    
+    Pair(int y, int x){
+        this.y = y;
+        this.x = x;
     }
+}
+
+class Solution {
+    
     
     int[] dx = { 0, 0, -1, 1}; // up, down, left, right
     int[] dy = {-1, 1,  0, 0};
