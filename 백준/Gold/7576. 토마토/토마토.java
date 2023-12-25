@@ -8,11 +8,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 class Pair {
-    int x, y;
+    int x, y, dist;
 
-    public Pair(int x, int y) {
+    public Pair(int x, int y, int dist) {
         this.x = x;
         this.y = y;
+        this.dist = dist;
     }
 }
 
@@ -43,36 +44,31 @@ public class Main {
             for (int j = 0; j < width; j++) {
                 arr[i][j] = s[j];
                 if (s[j] == 1) {
-                    pairs.offer(new Pair(i, j));
+                    pairs.offer(new Pair(i, j, 0));
                     isVisit[i][j] = true;
                 }
             }
         }
-
-        int cnt = -1;
-        Queue<Pair> tmp = new LinkedList<>();
+        int ans = 0;
         while (!pairs.isEmpty()) {
-            while (!pairs.isEmpty()) {
-                Pair poll = pairs.poll();
-                for (int i = 0; i < 4; i++) {
-                    int nx = poll.x + dx[i];
-                    int ny = poll.y + dy[i];
-                    if (nx < 0 || ny < 0 || nx >= height || ny >= width) {
-                        continue;
-                    }
-                    if (isVisit[nx][ny] || arr[nx][ny] == -1) {
-                        continue;
-                    }
+            Pair poll = pairs.poll();
+            int len = poll.dist + 1;
+            for (int i = 0; i < 4; i++) {
+                int nx = poll.x + dx[i];
+                int ny = poll.y + dy[i];
+                if (nx < 0 || ny < 0 || nx >= height || ny >= width) {
+                    continue;
+                }
+                if (isVisit[nx][ny] || arr[nx][ny] == -1) {
+                    continue;
+                }
+                if (arr[nx][ny] == 0) {
                     arr[nx][ny] = 1;
                     isVisit[nx][ny] = true;
-                    tmp.offer(new Pair(nx, ny));
+                    pairs.offer(new Pair(nx, ny, len));
+                    ans = len;
                 }
             }
-            while (!tmp.isEmpty()) {
-                Pair poll = tmp.poll();
-                pairs.offer(poll);
-            }
-            cnt++;
         }
 
         for (int i = 0; i < height; i++) {
@@ -83,7 +79,6 @@ public class Main {
                 }
             }
         }
-
-        System.out.println(cnt);
+        System.out.println(ans);
     }
 }
