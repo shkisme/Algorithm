@@ -22,15 +22,6 @@ public class Main {
 
     private static void func(int num) { // 현재까지 K개의 수를 택함.
         if (num == M) { // M개를 모두 택했다면
-            int flag = arr[0];
-            for (int j = 0; j < M; j++) {
-                if (j != 0) {
-                    if (flag > arr[j]) {
-                        return;
-                    }
-                    flag = arr[j];
-                }
-            }
             for (int i = 0; i < M; i++) {
                 System.out.print(arr[i] + " ");
             }
@@ -40,9 +31,22 @@ public class Main {
         for (int i = 1; i <= N; i++) { // 1부터 n개까지 수에 대해서,
             if (!isUsed[i]) { // 아직 사용되지 않았다면,
                 arr[num] = i; // K번째 수를 i로 정함.
-                isUsed[i] = true; // i를 사용했다고 표시
-                func(num + 1); // 다음 수를 정하러 한 단계 더 들어감.
-                isUsed[i] = false; // k번째 수를 i로 정한 모든 경우에 대해서 다 확인했으니, i를 이제 사용되지 않았다고 명시함.
+                int flag = arr[0];
+                boolean stop = false;
+                for (int j = 0; j <= num; j++) {
+                    if (j != 0) {
+                        if (flag > arr[j]) {
+                            stop = true;
+                            break;
+                        }
+                        flag = arr[j];
+                    }
+                }
+                if (!stop) {
+                    isUsed[i] = true; // i를 사용했다고 표시
+                    func(num + 1); // 다음 수를 정하러 한 단계 더 들어감.
+                    isUsed[i] = false; // k번째 수를 i로 정한 모든 경우에 대해서 다 확인했으니, i를 이제 사용되지 않았다고 명시함.
+                }
             }
         }
     }
