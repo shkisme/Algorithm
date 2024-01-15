@@ -5,8 +5,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
@@ -34,36 +32,21 @@ public class Main {
         int idx1 = 0;
         int idx2 = 0;
 
-        List<Integer> list = new ArrayList<>();
+        int[] ans = new int[N + M];
 
-        while (true) {
-
-            if (idx1 == N && idx2 == M) {
-                break;
-            }
-
-            if (idx1 == N) { // 맨 마지막 원소
-                list.add(arr2[idx2]);
-                idx2++;
-                continue;
-            }
-
+        for (int i = 0; i < N + M; i++) {
             if (idx2 == M) {
-                list.add(arr1[idx1]);
-                idx1++;
-                continue;
-            }
-            int min = Math.min(arr1[idx1], arr2[idx2]);
-            if (min == arr1[idx1]) {
-                idx1++;
+                ans[i] = arr1[idx1++];
+            } else if (idx1 == N) {
+                ans[i] = arr2[idx2++];
+            } else if (arr1[idx1] <= arr2[idx2]) {
+                ans[i] = arr1[idx1++];
             } else {
-                idx2++;
+                ans[i] = arr2[idx2++];
             }
-            list.add(min);
         }
-
-        for (int i : list) {
-            bw.write(i + " ");
+        for (int i = 0; i < N + M; i++) {
+            bw.write(ans[i] + " ");
         }
         bw.flush();
     }
