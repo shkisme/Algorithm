@@ -21,5 +21,3 @@
 ![shkisme profile](http://mazandi.herokuapp.com/api?handle=shk010130&theme=warm)
 
 </div>
-
-...
