@@ -1,51 +1,40 @@
-import java.util.*;
-
 class Pair{
-    int p, l;
+    int l;
+    int p;
     
-    Pair(int p, int l){
-        this.p = p;
+    Pair(int l, int p){
         this.l = l;
+        this.p = p;
     }
 }
 
 class Solution {
-    public int solution(int[] priorities, int location) {
-        int answer = 0;
+    public int solution(int[] priorities, int location) {    
+        Pair[] queue = new Pair[1_000_000];
+        int head = 0;
+        int tail = priorities.length;
         
-        Queue<Pair> q = new LinkedList<>();
-        
-        for(int i = 0; i < priorities.length; i++){
-            q.offer(new Pair(priorities[i], i));
+        int[] prioritie = new int[10];
+        for (int i = 0; i < priorities.length; i++){
+            int p = priorities[i];
+            queue[i] = new Pair(i, p);
+            prioritie[p]++;
         }
         
-        int cnt = 0;
-        
-        while(!q.isEmpty()){
-            
-            Pair p = q.poll();
-            
-            Queue<Pair> tmp = new LinkedList<>();
-            
-            boolean flag = false;
-            
-            while(!q.isEmpty()){
-                Pair np = q.poll();
-                
-                if (p.p < np.p){
-                    flag = true;
+        int answer = 0;
+        for (int i = 9; i > 0; i--){
+            if (prioritie[i] > 0){
+                while(prioritie[i] != 0){
+                    if (queue[head].p == i){
+                        if (queue[head].l == location) return answer + 1;
+                        prioritie[i]--;
+                        head++;
+                        answer++;
+                    } else {
+                        queue[tail++] = queue[head++];
+                    }
                 }
-                tmp.offer(np);
             }
-            
-            if (flag == true){
-                tmp.offer(p);
-            }
-            else{
-                cnt++;
-                if (p.l == location) return cnt;
-            }
-            q = tmp;
         }
         
         return answer;
