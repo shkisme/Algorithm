@@ -1,65 +1,69 @@
-import static java.lang.System.in;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 class Pair {
-    int x, y, ans;
+    int x, y;
 
-    public Pair(int x, int y, int ans) {
+    public Pair(final int x, final int y) {
         this.x = x;
         this.y = y;
-        this.ans = ans;
     }
 }
 
 public class Main {
 
+    static BufferedReader br = new BufferedReader(new InputStreamReader(java.lang.System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(java.lang.System.out));
+
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String[] strings = br.readLine().split(" ");
+        int n = Integer.parseInt(strings[0]);
+        int m = Integer.parseInt(strings[1]);
 
-        int[] input = Arrays.stream(br.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        int[][] board = new int[n + 1][m + 1];
+        int[][] answer = new int[n + 1][m + 1];
+        boolean[][] visit = new boolean[n + 1][m + 1];
 
-        int height = input[0];
-        int width = input[1];
-        int[][] arr = new int[height][width];
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
 
-        for (int i = 0; i < height; i++) {
-            String s = br.readLine();
-            for (int j = 0; j < width; j++) {
-                arr[i][j] = s.charAt(j) - '0';
+        for (int i = 0; i < n; i++) {
+            String string = br.readLine();
+            for (int j = 0; j < m; j++) {
+                board[i][j] = string.charAt(j) - '0';
             }
         }
 
-        boolean isVisit[][] = new boolean[height][width];
-
-        Queue<Pair> pairs = new LinkedList<>();
-        pairs.offer(new Pair(0, 0, 1));
-        isVisit[0][0] = true;
-        int[] dx = {0, 0, -1, 1};
-        int[] dy = {-1, 1, 0, 0};
-
-        while (!pairs.isEmpty()) {
-            Pair poll = pairs.poll();
-            int len = poll.ans + 1;
-            for (int i = 0; i < 4; i++) {
-                int nx = poll.x + dx[i];
-                int ny = poll.y + dy[i];
-                if (nx < 0 || ny < 0 || nx >= height || ny >= width || isVisit[nx][ny] == true || arr[nx][ny] == 0) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (board[i][j] == 0 || visit[i][j]) {
                     continue;
                 }
-                isVisit[nx][ny] = true;
-                pairs.offer(new Pair(nx, ny, len));
-                if (nx == height - 1 && ny == width - 1) {
-                    System.out.println(len);
-                    break;
+
+                Queue<Pair> q = new LinkedList<>();
+                q.offer(new Pair(i, j));
+                visit[i][j] = true;
+
+                while (!q.isEmpty()) {
+                    Pair poll = q.poll();
+
+                    for (int d = 0; d < 4; d++) {
+                        int nx = dx[d] + poll.x;
+                        int ny = dy[d] + poll.y;
+
+                        if (nx < 0 || nx >= n || ny < 0 || ny >= m || board[nx][ny] == 0 || visit[nx][ny]) {
+                            continue;
+                        }
+
+                        q.offer(new Pair(nx, ny));
+                        visit[nx][ny] = true;
+                        answer[nx][ny] = answer[poll.x][poll.y] + 1;
+                    }
                 }
             }
         }
+
+        bw.write(answer[n - 1][m - 1] + 1 + "");
+        bw.flush();
     }
 }
