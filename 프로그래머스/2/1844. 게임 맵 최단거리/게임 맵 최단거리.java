@@ -1,53 +1,44 @@
 import java.util.*;
 
 class Pair{
-    int x, y, depth;
+    int x, y;
     
-    Pair(int x, int y, int depth){
+    Pair(int x, int y){
         this.x = x;
         this.y = y;
-        this.depth = depth;
     }
 }
 
 class Solution {
     public int solution(int[][] maps) {
-        int answer = -1;
+        int[] dx = {0,0,1,-1};
+        int[] dy = {1,-1,0,0};
         
         int n = maps.length;
         int m = maps[0].length;
-        
-        boolean[][] isVisit = new boolean[maps.length][maps[0].length];
+        boolean[][] visit = new boolean[n][m];
+        int[][] answer = new int[n][m];
         
         Queue<Pair> q = new LinkedList<>();
-        
-        q.offer(new Pair(0,0,1));
-        isVisit[0][0] = true;
-        
-        int[] dx = {-1,1,0,0};
-        int[] dy = {0,0,-1,1};
-        
+        q.offer(new Pair(0, 0));
+        visit[0][0] = true;
+
         while(!q.isEmpty()){
             Pair poll = q.poll();
-            
-            if (poll.x == n - 1 && poll.y == m - 1){
-                answer = poll.depth;
-                break;
-            }
-            
-            for (int i = 0; i < 4; i++){
-                int nx = poll.x + dx[i];
-                int ny = poll.y + dy[i];
-                
-                if (nx < 0 || ny < 0 || nx >= n || ny >= m){
-                    continue;
-                }
-                if (maps[nx][ny] == 0 || isVisit[nx][ny]) continue;
-                q.offer(new Pair(nx, ny, poll.depth + 1));
-                isVisit[nx][ny] = true;
+
+            for (int d = 0; d < 4; d++){
+                int nx = dx[d] + poll.x;
+                int ny = dy[d] + poll.y;
+
+                if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+                if (maps[nx][ny] == 0 || visit[nx][ny]) continue;
+                q.offer(new Pair(nx, ny));
+                visit[nx][ny] = true;
+                answer[nx][ny] = answer[poll.x][poll.y] + 1;
             }
         }
         
-        return answer;
+        if (answer[n - 1][m - 1] == 0) return -1;
+        return answer[n - 1][m - 1] + 1;
     }
 }
