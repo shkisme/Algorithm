@@ -1,84 +1,79 @@
-import static java.lang.System.exit;
-import static java.lang.System.in;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 class Pair {
-    int x, y, dist;
+    int x, y;
 
-    public Pair(int x, int y, int dist) {
+    public Pair(final int x, final int y) {
         this.x = x;
         this.y = y;
-        this.dist = dist;
     }
 }
 
 public class Main {
 
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {-1, 1, 0, 0};
+    static BufferedReader br = new BufferedReader(new InputStreamReader(java.lang.System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(java.lang.System.out));
 
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String[] strings = br.readLine().split(" ");
+        int m = Integer.parseInt(strings[0]);
+        int n = Integer.parseInt(strings[1]);
 
-        int[] input = Arrays.stream(br.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-
-        int width = input[0];
-        int height = input[1];
-
-        int[][] arr = new int[height][width];
-        Queue<Pair> pairs = new LinkedList<>();
-
-        boolean isVisit[][] = new boolean[height][width];
-
-        for (int i = 0; i < height; i++) {
-            int[] s = Arrays.stream(br.readLine().split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            for (int j = 0; j < width; j++) {
-                arr[i][j] = s[j];
-                if (s[j] == 1) {
-                    pairs.offer(new Pair(i, j, 0));
-                    isVisit[i][j] = true;
+        int[][] board = new int[n + 1][m + 1];
+        Queue<Pair> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            strings = br.readLine().split(" ");
+            for (int j = 0; j < m; j++) {
+                board[i][j] = Integer.parseInt(strings[j]);
+                if (board[i][j] == 1) {
+                    q.offer(new Pair(i, j));
                 }
             }
         }
-        int ans = 0;
-        while (!pairs.isEmpty()) {
-            Pair poll = pairs.poll();
-            int len = poll.dist + 1;
-            for (int i = 0; i < 4; i++) {
-                int nx = poll.x + dx[i];
-                int ny = poll.y + dy[i];
-                if (nx < 0 || ny < 0 || nx >= height || ny >= width) {
+
+        int[] dx = {0, 0, 1, -1};
+        int[] dy = {1, -1, 0, 0};
+
+        int[][] dist = new int[n + 1][m + 1];
+        int max = 0;
+
+        while (!q.isEmpty()) {
+            Pair poll = q.poll();
+
+            for (int d = 0; d < 4; d++) {
+                int nx = dx[d] + poll.x;
+                int ny = dy[d] + poll.y;
+
+                if (nx < 0 || ny < 0 || nx >= n || ny >= m) {
                     continue;
                 }
-                if (isVisit[nx][ny] || arr[nx][ny] == -1) {
+                if (board[nx][ny] == 1 || board[nx][ny] == -1) {
                     continue;
                 }
-                if (arr[nx][ny] == 0) {
-                    arr[nx][ny] = 1;
-                    isVisit[nx][ny] = true;
-                    pairs.offer(new Pair(nx, ny, len));
-                    ans = len;
+                q.offer(new Pair(nx, ny));
+                board[nx][ny] = 1;
+                if (dist[nx][ny] == 0) {
+                    dist[nx][ny] = dist[poll.x][poll.y] + 1;
+                    max = Math.max(max, dist[nx][ny]);
+                } else {
+                    dist[nx][ny] = Math.min(dist[poll.x][poll.y] + 1, dist[nx][ny]);
+                    max = Math.max(max, dist[nx][ny]);
                 }
             }
         }
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (arr[i][j] == 0) {
-                    System.out.println(-1);
-                    exit(0);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (board[i][j] == 0) {
+                    bw.write("-1");
+                    bw.flush();
+                    return;
                 }
             }
         }
-        System.out.println(ans);
+
+        bw.write(max + "");
+        bw.flush();
     }
 }
