@@ -1,17 +1,10 @@
-import static java.lang.System.in;
-import static java.util.Comparator.naturalOrder;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 class Pair {
     int x, y;
 
-    public Pair(int x, int y) {
+    public Pair(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -19,75 +12,79 @@ class Pair {
 
 public class Main {
 
-    static BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-    static int N = 0, M = 0, K = 0;
-
-    static int[][] arr;
-
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
+    static BufferedReader br = new BufferedReader(new InputStreamReader(java.lang.System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(java.lang.System.out));
 
     public static void main(String[] args) throws Exception {
-        String[] read = br.readLine().split(" ");
-        M = Integer.parseInt(read[0]);
-        N = Integer.parseInt(read[1]);
-        K = Integer.parseInt(read[2]);
+        String[] strings = br.readLine().split(" ");
+        int m = Integer.parseInt(strings[0]);
+        int n = Integer.parseInt(strings[1]);
+        int k = Integer.parseInt(strings[2]);
 
-        arr = new int[M][N];
+        int[][] board = new int[n + 1][m + 1];
 
-        for (int i = 0; i < K; i++) {
-            String[] lines = br.readLine().split(" ");
-            int lx = Integer.parseInt(lines[0]);
-            int ly = Integer.parseInt(lines[1]);
-            int rx = Integer.parseInt(lines[2]);
-            int ry = Integer.parseInt(lines[3]);
+        for (int i = 0; i < k; i++) {
+            strings = br.readLine().split(" ");
 
-            for (int y = ly; y < ry; y++) {
-                for (int x = lx; x < rx; x++) {
-                    arr[y][x] = 1;
+            int lx = Integer.parseInt(strings[0]);
+            int ly = Integer.parseInt(strings[1]);
+            int rx = Integer.parseInt(strings[2]);
+            int ry = Integer.parseInt(strings[3]);
+
+            for (int j = lx; j < rx; j++) {
+                for (int d = ly; d < ry; d++) {
+                    board[j][d] = 1;
                 }
             }
         }
 
-        Queue<Pair> pairs = new LinkedList<>();
-        boolean[][] isVisit = new boolean[M][N];
-
-        List<Integer> area = new ArrayList<>();
-
+        Queue<Pair> q = new LinkedList<>();
+        boolean[][] visit = new boolean[n + 1][m + 1];
         int cnt = 0;
 
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < N; j++) {
-                if (arr[i][j] == 0 && !isVisit[i][j]) {
-                    pairs.offer(new Pair(i, j));
-                    isVisit[i][j] = true;
+        int[] dx = {0, 0, 1, -1};
+        int[] dy = {1, -1, 0, 0};
+
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (board[i][j] == 0 && !visit[i][j]) {
+                    q.offer(new Pair(i, j));
+                    visit[i][j] = true;
                     cnt++;
 
-                    int sum = 0;
+                    int area = 0;
 
-                    while (!pairs.isEmpty()) {
-                        Pair poll = pairs.poll();
-                        sum++;
-                        for (int k = 0; k < 4; k++) {
-                            int nx = poll.x + dx[k];
-                            int ny = poll.y + dy[k];
-                            if (nx < 0 || nx >= M || ny < 0 || ny >= N || arr[nx][ny] == 1 || isVisit[nx][ny]) {
+                    while (!q.isEmpty()) {
+                        Pair poll = q.poll();
+                        area++;
+
+                        for (int d = 0; d < 4; d++) {
+                            int nx = dx[d] + poll.x;
+                            int ny = dy[d] + poll.y;
+
+                            if (nx < 0 || ny < 0 || nx >= n || ny >= m) {
                                 continue;
                             }
-                            isVisit[nx][ny] = true;
-                            pairs.offer(new Pair(nx, ny));
+                            if (board[nx][ny] == 1 || visit[nx][ny]) {
+                                continue;
+                            }
+
+                            q.offer(new Pair(nx, ny));
+                            visit[nx][ny] = true;
                         }
                     }
-                    area.add(sum);
+
+                    list.add(area);
                 }
             }
         }
-
-        System.out.println(cnt);
-        area.sort(naturalOrder());
-        for (int i : area) {
-            System.out.print(i + " ");
+        bw.write(cnt + "\n");
+        list.sort(Comparator.naturalOrder());
+        for (int i = 0; i < list.size(); i++) {
+            bw.write(list.get(i) + " ");
         }
+        bw.flush();
     }
 }
