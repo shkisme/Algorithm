@@ -1,67 +1,66 @@
-import static java.lang.System.in;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
-    static BufferedReader br = new BufferedReader(new InputStreamReader(in));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(java.lang.System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(java.lang.System.out));
 
-    static int N = 0;
-
+    static int ans1, ans2, ans3;
     static int[][] arr;
 
-    static int a1 = 0, a2 = 0, a3 = 0; // -1, 0, 1
-
     public static void main(String[] args) throws Exception {
-        N = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
 
-        arr = new int[N][N];
+        arr = new int[n + 1][n + 1];
 
-        for (int i = 0; i < N; i++) {
-            String[] read = br.readLine().split(" ");
-            for (int j = 0; j < N; j++) {
-                arr[i][j] = Integer.parseInt(read[j]);
+        for (int i = 0; i < n; i++) {
+            String[] strings = br.readLine().split(" ");
+            for (int j = 0; j < n; j++) {
+                arr[i][j] = Integer.parseInt(strings[j]);
             }
         }
 
-        fun(N, 0, 0);
-
-        System.out.println(a1);
-        System.out.println(a2);
-        System.out.println(a3);
+        func(n, 0, 0);
+        bw.write(ans1 + "\n");
+        bw.write(ans2 + "\n");
+        bw.write(ans3 + "\n");
+        bw.flush();
     }
 
-    private static void fun(int n, int x, int y) {
-        int flag = arr[x][y];
-        for (int i = x; i < x + n; i++) {
-            for (int j = y; j < y + n; j++) {
-                if (flag != arr[i][j]) {
+    public static void func(int size, int x, int y) throws IOException {
+        int num = arr[x][y];
+        if (size == 1) {
+            //bw.write("1: " + num + "\n");
+            judge(num);
+            return;
+        }
 
-                    // TODO : 재귀 실행
-                    fun(n / 3, x, y);
-                    fun(n / 3, x, y + n / 3);
-                    fun(n / 3, x, y + (n / 3) * 2);
-
-                    fun(n / 3, x + n / 3, y);
-                    fun(n / 3, x + n / 3, y + n / 3);
-                    fun(n / 3, x + n / 3, y + (n / 3) * 2);
-
-                    fun(n / 3, x + (n / 3) * 2, y);
-                    fun(n / 3, x + (n / 3) * 2, y + n / 3);
-                    fun(n / 3, x + (n / 3) * 2, y + (n / 3) * 2);
-
+        for (int i = x; i < x + size; i++) {
+            for (int j = y; j < y + size; j++) {
+                if (arr[i][j] != num) {
+                    int nextSize = size / 3;
+                    for (int k = 0; k < 3; k++) {
+                        for (int z = 0; z < 3; z++) {
+                            //bw.write("nextSize: " + nextSize + " x: " + x + " y: " + y + "\n");
+                            func(nextSize, nextSize * k + x, nextSize * z + y);
+                        }
+                    }
                     return;
                 }
             }
         }
+        //bw.write("x: " + x + " y: " + y + " size: " + size + "\n");
+        judge(num);
+    }
 
-        if (flag == -1) {
-            a1++;
-        } else if (flag == 0) {
-            a2++;
-        } else {
-            a3++;
+    public static void judge(int num) {
+        if (num == -1) {
+            ans1++;
+        } else if (num == 0) {
+            ans2++;
+        } else if (num == 1) {
+            ans3++;
         }
     }
 }
