@@ -1,32 +1,32 @@
-import static java.lang.System.in;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
-    static int one = 1;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(java.lang.System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(java.lang.System.out));
+
+    static long c;
 
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String[] strings = br.readLine().split(" ");
+        long a = Integer.parseInt(strings[0]);
+        long b = Integer.parseInt(strings[1]);
+        c = Integer.parseInt(strings[2]);
 
-        String[] reads = br.readLine().split(" ");
-        int A = Integer.parseInt(reads[0]);
-        int B = Integer.parseInt(reads[1]);
-        int C = Integer.parseInt(reads[2]);
-
-        one = A % C;
-        System.out.println(fun(A, B, C));
+        bw.write(myPow(a, b) + "");
+        bw.flush();
     }
 
-    private static long fun(int a, int b, int c) {
-        if (b == 1) {
-            return one;
+    private static long myPow(final long a, final long exponent) {
+        if (exponent == 1) { // 지수가 1일 경우.
+            return a % c;
         }
-        if (b % 2 == 0) {
-            long tmp = fun(a, b / 2, c);
-            return (tmp * tmp) % c;
+
+        long temp = myPow(a, exponent / 2);
+        if (exponent % 2 == 1) { // 지수가 홀수일경우.
+            return (temp * temp % c) * a % c;
         }
-        return (fun(a, b - 1, c) * one) % c;
+        return temp * temp % c;
     }
 }
