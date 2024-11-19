@@ -1,32 +1,28 @@
-import static java.lang.System.in;
-import static java.lang.System.out;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
-    static BufferedReader br = new BufferedReader(new InputStreamReader(in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(java.lang.System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(java.lang.System.out));
 
     public static void main(String[] args) throws Exception {
-        int N = Integer.parseInt(br.readLine());
+        int k = Integer.parseInt(br.readLine());
 
-        bw.write((int) Math.pow(2, N) - 1 + "\n");
-        fun(N, 1, 3);
+        bw.write((1 << k) - 1 + "\n");
+        func(1, 3, k);
         bw.flush();
     }
 
-    private static void fun(int N, int src, int dest) throws IOException {
-        if (N == 1) {
-            bw.write(src + " " + dest + "\n");
+    // 원판 n개를 기둥 1에서 기둥 3으로 옮기는 방법을 출력하는 함수.
+    // 시작 기둥과 도착 기둥도 인자로 받는 함수를 만든다.
+    private static void func(final int a, final int b, final int n) throws IOException {
+        if (n == 1) {
+            bw.write(a + " " + b + "\n");
             return;
         }
-        fun(N - 1, src, 6 - src - dest);
-        bw.write(src + " " + dest + "\n");
-        fun(N - 1, 6 - src - dest, dest);
+        func(a, 6 - a - b, n - 1);
+        bw.write(a + " " + b + "\n");
+        func(6 - a - b, b, n - 1);
     }
 }
