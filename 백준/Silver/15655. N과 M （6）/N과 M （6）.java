@@ -1,67 +1,49 @@
-import static java.lang.System.in;
-import static java.lang.System.out;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.Arrays;
 
 public class Main {
 
-    static BufferedReader br = new BufferedReader(new InputStreamReader(in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    static int N = 0, M = 0;
-
-    static int[] save;
-    static int[] arr = new int[10];
-    static boolean[] isUsed = new boolean[10];
+    static int N, M;
+    static int[] arr;
+    static int[] tmp;
+    static boolean[] visit;
 
     public static void main(String[] args) throws Exception {
-        String[] read = br.readLine().split(" ");
+        String[] strings = br.readLine().split(" ");
+        N = Integer.parseInt(strings[0]);
+        M = Integer.parseInt(strings[1]);
 
-        N = Integer.parseInt(read[0]);
-        M = Integer.parseInt(read[1]);
-
-        read = br.readLine().split(" ");
-        save = new int[N];
+        arr = new int[N];
+        tmp = new int[N];
+        visit = new boolean[N];
+        strings = br.readLine().split(" ");
         for (int i = 0; i < N; i++) {
-            save[i] = Integer.parseInt(read[i]);
+            arr[i] = Integer.parseInt(strings[i]);
         }
-        Arrays.sort(save);
-        func(0);
+
+        Arrays.sort(arr);
+        backtracking(0, 0);
         bw.flush();
     }
 
-    private static void func(int cur) throws IOException {
-        if (cur == M) {
+    private static void backtracking(final int num, int start) throws IOException {
+        if (num == M) {
             for (int i = 0; i < M; i++) {
-                bw.write(arr[i] + " ");
+                bw.write(tmp[i] + " ");
             }
             bw.write("\n");
             return;
         }
-        for (int i = 0; i < N; i++) {
-            if (isUsed[i]) {
-                continue;
-            }
-            arr[cur] = save[i];
 
-            int flag = arr[0];
-            boolean next = true;
-            for (int k = 1; k <= cur; k++) {
-                if (flag > arr[k]) {
-                    next = false;
-                    break;
-                }
-                flag = arr[k];
-            }
-            if (next) {
-                isUsed[i] = true;
-                func(cur + 1);
-                isUsed[i] = false;
+        for (int i = start; i < N; i++) {
+            if (!visit[i]) {
+                visit[i] = true;
+                tmp[num] = arr[i];
+                backtracking(num + 1, i);
+                visit[i] = false;
             }
         }
     }
